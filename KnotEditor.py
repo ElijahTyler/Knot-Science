@@ -6,8 +6,12 @@ pygame.init()
 maindir = os.path.dirname(os.path.abspath(__file__))
 assetdir = os.path.join(maindir, 'assets')
 
-with open("knot.json", "r") as f:
-    current_knot = json.load(f)["knot"]
+if os.path.exists("knot.json"):
+    with open("knot.json", "r") as f:
+        current_knot = json.load(f)["knot"]
+else:
+    current_knot = []
+    [current_knot.append([0]*20) for i in range(15)]
 
 blocks_layout = []
 [blocks_layout.append([0]*20) for i in range(15)]
