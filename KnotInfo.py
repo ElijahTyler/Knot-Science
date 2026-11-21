@@ -1,6 +1,7 @@
 import pygame
 
-tile_type_dict = {
+# tile id_num -> tile type
+tile_id_type_dict = {
     0: "empty",
     1: "bar_h",
     2: "bar_v",
@@ -17,7 +18,11 @@ tile_type_dict = {
     13: "dot"
 }
 
-key_tile_dict = {
+# tile type -> tile id_num
+tile_type_id_dict = {v: k for k, v in tile_id_type_dict.items()}
+
+# key pressed -> tile id_num
+keypress_tile_dict = {
     pygame.K_0: 0,
     pygame.K_1: 1,
     pygame.K_2: 2,
@@ -34,4 +39,23 @@ key_tile_dict = {
     pygame.K_PERIOD: 13
 }
 
-keys = list(key_tile_dict.keys())
+keys = list(keypress_tile_dict.keys())
+
+# tile id_num -> adjacencies [right, up, left, down]
+# ex: "dot_right": [1, 0, 0, 0]
+tile_id_adjacency_dict = {
+    0: [0, 0, 0, 0],
+    1: [1, 0, 1, 0],
+    2: [0, 1, 0, 1],
+    3: [1, 1, 1, 1],
+    4: [1, 1, 1, 1],
+    5: [1, 1, 0, 0],
+    6: [0, 1, 1, 0],
+    7: [0, 0, 1, 1],
+    8: [1, 0, 0, 1],
+    9: [1, 0, 0, 0],
+    10: [0, 1, 0, 0],
+    11: [0, 0, 1, 0],
+    12: [0, 0, 0, 1],
+    13: [0, 0, 0, 0]
+}

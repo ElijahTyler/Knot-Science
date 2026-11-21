@@ -57,7 +57,7 @@ while True:
             quit()
         if event.type == pygame.KEYDOWN:
             if event.key in keys:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(key_tile_dict[event.key], mouse_ij[0], mouse_ij[1])
+                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(keypress_tile_dict[event.key], mouse_ij[0], mouse_ij[1])
 
     screen.blit(knot_background, (0, 0))
     for i in range(HEIGHT):

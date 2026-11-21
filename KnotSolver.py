@@ -46,15 +46,23 @@ def find_inner_regions(knot):
     # (directly connected := no crossings between pieces)
     pass
 
-
+def trace(knot):
+    for i in range(len(knot)):
+        for j in range(len(knot[0])):
+            if knot[i][j].id_num in [9, 10, 11, 12]: # dots are the ends
+                break
+        if knot[i][j].id_num in [9, 10, 11, 12]:
+            break
 
 def main():
     with open("knot.json", "r") as f:
         knot = json.load(f)["knot"]
 
-    regions = find_regions(knot)
-    for r in regions:
-        print(r)
+    # regions = find_regions(knot)
+    # for r in regions:
+    #     print(r)
+
+    trace(knot)
 
 if __name__ == "__main__":
     main()
