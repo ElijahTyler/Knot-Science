@@ -1,5 +1,16 @@
 import json
 
+from Tile import *
+
+def ints_to_tiles(knot):
+    new_knot = []
+    for i, row in enumerate(knot):
+        new_row = []
+        for j, cell in enumerate(row):
+            new_row.append(Tile(cell, i, j))
+        new_knot.append(new_row)
+    return new_knot
+
 def find_ends_of_knot(knot):
     ends = []
     for i, row in enumerate(knot):
@@ -44,6 +55,8 @@ def find_inner_regions(knot):
     # line/dot: 1 or 2 regions (only ever one region if it's a tail on either end of the knot)
     # crossing: 2, 3 or 4 regions (4 regions minus number of tails it's directly connected to)
     # (directly connected := no crossings between pieces)
+
+    # TODO
     pass
 
 def trace(knot):
@@ -54,13 +67,18 @@ def trace(knot):
         if knot[i][j].id_num in [9, 10, 11, 12]:
             break
 
+    # i, j are coordinates for a dot tile, which is the start of the trace
+
+    # TODO
+    pass
+
 def main():
     with open("knot.json", "r") as f:
         knot = json.load(f)["knot"]
+    knot = ints_to_tiles(knot)
 
-    # regions = find_regions(knot)
-    # for r in regions:
-    #     print(r)
+    r = find_outer_region(knot)
+    print(r)
 
     trace(knot)
 
