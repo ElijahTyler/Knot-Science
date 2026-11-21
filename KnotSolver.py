@@ -53,13 +53,15 @@ def find_inner_regions(knot):
     # the knot pieces create the regions based on the type of knot piece
     # corner piece: 2 regions
     # line/dot: 1 or 2 regions (only ever one region if it's a tail on either end of the knot)
-    # crossing: 2, 3 or 4 regions (4 regions minus number of tails it's directly connected to)
+    # overpass: 2, 3 or 4 regions (4 regions minus number of tails it's directly connected to)
     # (directly connected := no crossings between pieces)
 
     # TODO
     pass
 
 def trace(knot):
+    dir = -1 # 0 is horizontal, 1 is vertical
+
     for i in range(len(knot)):
         for j in range(len(knot[0])):
             if knot[i][j].id_num in [9, 10, 11, 12]: # dots are the ends
@@ -67,7 +69,12 @@ def trace(knot):
         if knot[i][j].id_num in [9, 10, 11, 12]:
             break
 
+    if dir == -1: # The Santa Clause
+        print("no end pieces found")
+        return
+
     # i, j are coordinates for a dot tile, which is the start of the trace
+    # and we only need to find one of them
 
     # TODO
     pass

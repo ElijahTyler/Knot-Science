@@ -22,7 +22,7 @@ tile_id_type_dict = {
 tile_type_id_dict = {v: k for k, v in tile_id_type_dict.items()}
 
 # key pressed -> tile id_num
-keypress_tile_dict = {
+keypress_tile_id_dict = {
     pygame.K_0: 0,
     pygame.K_1: 1,
     pygame.K_2: 2,
@@ -39,7 +39,7 @@ keypress_tile_dict = {
     pygame.K_PERIOD: 13
 }
 
-keys = list(keypress_tile_dict.keys())
+keys = list(keypress_tile_id_dict.keys())
 
 # tile id_num -> adjacencies [right, up, left, down]
 # ex: "dot_right": [1, 0, 0, 0]
