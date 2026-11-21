@@ -15,7 +15,7 @@ def find_ends_of_knot(knot):
     ends = []
     for i, row in enumerate(knot):
         for j, cell in enumerate(row):
-            if cell.type in [9, 10, 11, 12]: # dots are the ends
+            if cell.id_num in [9, 10, 11, 12]: # dots are the ends
                 ends.append((i, j))
     return ends if len(ends) == 2 else []
 
@@ -60,34 +60,89 @@ def find_inner_regions(knot):
     pass
 
 def trace(knot):
-    dir = -1 # 0 is horizontal, 1 is vertical
+    dir = -1
 
     for i in range(len(knot)):
         for j in range(len(knot[0])):
             if knot[i][j].id_num in [9, 10, 11, 12]: # dots are the ends
+                dir = -2
                 break
         if knot[i][j].id_num in [9, 10, 11, 12]:
+            dir = -2
             break
 
     if dir == -1: # The Santa Clause
         print("no end pieces found")
         return
+    dir = knot[i][j].id_num - 9 # 0 is right, 1 is up, 2 is left, 3 is down
 
-    # i, j are coordinates for a dot tile, which is the start of the trace
-    # and we only need to find one of them
+    # i, j are now coordinates for a dot tile, which is the start of the trace
+    # (we only needed to find one of them)
 
-    # TODO
-    pass
+    current_i, current_j = i, j
+    visited_list = [(i, j)]
+
+    idx_dirs = [(0, 1), (-1, 0), (0, -1), (1, 0)] # right, up, left, down
+
+    while (current_i, current_j) not in find_ends_of_knot(knot) or len(visited_list) == 1:
+        # 1. check current tile's adjacency (only one should show up in the direction we're going)
+        # 2. go to the new tile 
+        # 3. block off the adjacency behind the new tile
+        # 4. repeat until we reach the other end of the knot (the other dot tile)
+
+        # 1.
+        dir = dir # lmao
+        
+        # 2.
+        di, dj = idx_dirs[dir]
+        ni, nj = current_i + di, current_j + dj
+
+        # 3.
+        knot[ni][nj].adjacencies[(dir + 2) % 4] = 0
+
+        # 4.
+        if knot[ni][nj].id_num in [5, 6, 7, 8]: # corner pieces
+            if dir == 0: # right
+                if knot[ni][nj].adjacencies[1] == 1: # up
+                    dir = 1
+                else:
+                    dir = 3
+            elif dir == 1: # up
+                if knot[ni][nj].adjacencies[2] == 1: # left
+                    dir = 2
+                else:
+                    dir = 0
+            elif dir == 2: # left
+                if knot[ni][nj].adjacencies[3] == 1: # down
+                    dir = 3
+                else:
+                    dir = 1
+            elif dir == 3: # down
+                if knot[ni][nj].adjacencies[0] == 1: # right
+                    dir = 0
+                else:
+                    dir = 2
+
+        current_i, current_j = ni, nj
+        visited_list.append((current_i, current_j))
+
+    return visited_list
+
+
+
+
 
 def main():
     with open("knot.json", "r") as f:
         knot = json.load(f)["knot"]
     knot = ints_to_tiles(knot)
 
-    r = find_outer_region(knot)
-    print(r)
+    ends = find_ends_of_knot(knot)
+    print(ends)
 
-    trace(knot)
+    knot_list = trace(knot)
+
+    print(knot_list)
 
 if __name__ == "__main__":
     main()
