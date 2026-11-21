@@ -24,8 +24,26 @@ tile_type_dict = {
     10: "dot_up",
     11: "dot_left",
     12: "dot_down",
-    13: "dot_center"
+    13: "dot"
 }
+
+key_tile_dict = {
+    pygame.K_0: 0,
+    pygame.K_1: 1,
+    pygame.K_2: 2,
+    pygame.K_3: 3,
+    pygame.K_4: 4,
+    pygame.K_5: 5,
+    pygame.K_6: 6,
+    pygame.K_7: 7,
+    pygame.K_8: 8,
+    pygame.K_RIGHT: 9,
+    pygame.K_UP: 10,
+    pygame.K_LEFT: 11,
+    pygame.K_DOWN: 12,
+    pygame.K_PERIOD: 13
+}
+keys = list(key_tile_dict.keys())
 
 if os.path.exists("knot.json"):
     with open("knot.json", "r") as f:
@@ -71,35 +89,9 @@ while True:
 
             quit()
         if event.type == pygame.KEYDOWN:
-            if event.key in [pygame.K_0, pygame.K_KP0]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(0, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_1, pygame.K_KP1]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(1, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_2, pygame.K_KP2]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(2, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_3, pygame.K_KP3]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(3, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_4, pygame.K_KP4]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(4, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_5, pygame.K_KP5]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(5, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_6, pygame.K_KP6]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(6, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_7, pygame.K_KP7]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(7, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_8, pygame.K_KP8]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(8, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_RIGHT]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(9, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_UP]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(10, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_LEFT]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(11, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_DOWN]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(12, mouse_ij[0], mouse_ij[1])
-            if event.key in [pygame.K_PERIOD, pygame.K_KP_PERIOD]:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(13, mouse_ij[0], mouse_ij[1])
-            
+            if event.key in keys:
+                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(key_tile_dict[event.key], mouse_ij[0], mouse_ij[1])
+
     screen.blit(knot_background, (0, 0))
     for i in range(HEIGHT):
         for j in range(WIDTH):

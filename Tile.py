@@ -19,7 +19,7 @@ tile_type_dict = {
     10: "dot_up",
     11: "dot_left",
     12: "dot_down",
-    13: "dot_center"
+    13: "dot"
 }
 
 class Tile:
