@@ -98,6 +98,8 @@ def trace(knot):
         ni, nj = current_i + di, current_j + dj
 
         # 3.
+        print(ni, nj)
+        print(knot[ni][nj].id_num)
         knot[ni][nj].adjacencies[(dir + 2) % 4] = 0
 
         # 4.
@@ -105,22 +107,22 @@ def trace(knot):
             if dir == 0: # right
                 if knot[ni][nj].adjacencies[1] == 1: # up
                     dir = 1
-                else:
+                elif knot[ni][nj].adjacencies[3] == 1: # down
                     dir = 3
             elif dir == 1: # up
-                if knot[ni][nj].adjacencies[2] == 1: # left
-                    dir = 2
-                else:
+                if knot[ni][nj].adjacencies[0] == 1: # right
                     dir = 0
+                elif knot[ni][nj].adjacencies[2] == 1: # left
+                    dir = 2
             elif dir == 2: # left
-                if knot[ni][nj].adjacencies[3] == 1: # down
-                    dir = 3
-                else:
+                if knot[ni][nj].adjacencies[1] == 1: # up
                     dir = 1
+                elif knot[ni][nj].adjacencies[3] == 1: # down
+                    dir = 3
             elif dir == 3: # down
                 if knot[ni][nj].adjacencies[0] == 1: # right
                     dir = 0
-                else:
+                elif knot[ni][nj].adjacencies[2] == 1: # left
                     dir = 2
 
         current_i, current_j = ni, nj
@@ -136,9 +138,6 @@ def main():
     with open("knot.json", "r") as f:
         knot = json.load(f)["knot"]
     knot = ints_to_tiles(knot)
-
-    ends = find_ends_of_knot(knot)
-    print(ends)
 
     knot_list = trace(knot)
 
