@@ -91,42 +91,20 @@ def trace(knot):
         # 4. repeat until we reach the other end of the knot (the other dot tile)
 
         # 1.
-        dir = dir # lmao
+        di, dj = idx_dirs[dir]
         
         # 2.
-        di, dj = idx_dirs[dir]
         ni, nj = current_i + di, current_j + dj
-
-        # 3.
-        print(ni, nj)
-        print(knot[ni][nj].id_num)
-        knot[ni][nj].adjacencies[(dir + 2) % 4] = 0
-
-        # 4.
-        if knot[ni][nj].id_num in [5, 6, 7, 8]: # corner pieces
-            if dir == 0: # right
-                if knot[ni][nj].adjacencies[1] == 1: # up
-                    dir = 1
-                elif knot[ni][nj].adjacencies[3] == 1: # down
-                    dir = 3
-            elif dir == 1: # up
-                if knot[ni][nj].adjacencies[0] == 1: # right
-                    dir = 0
-                elif knot[ni][nj].adjacencies[2] == 1: # left
-                    dir = 2
-            elif dir == 2: # left
-                if knot[ni][nj].adjacencies[1] == 1: # up
-                    dir = 1
-                elif knot[ni][nj].adjacencies[3] == 1: # down
-                    dir = 3
-            elif dir == 3: # down
-                if knot[ni][nj].adjacencies[0] == 1: # right
-                    dir = 0
-                elif knot[ni][nj].adjacencies[2] == 1: # left
-                    dir = 2
-
         current_i, current_j = ni, nj
         visited_list.append((current_i, current_j))
+
+        # 3.
+        knot[current_i][current_j].adjacencies[(dir + 2) % 4] = 0
+
+        # 4.
+        # only change direction if we're at a corner
+        if knot[current_i][current_j].id_num in [5, 6, 7, 8]: # corner pieces
+            dir = knot[current_i][current_j].adjacencies.index(1)
 
     return visited_list
 

@@ -20,6 +20,7 @@ tile_id_type_dict = {
 
 # tile type -> tile id_num
 tile_type_id_dict = {v: k for k, v in tile_id_type_dict.items()}
+print("tile_type_id_dict:", tile_type_id_dict)
 
 # key pressed -> tile id_num
 keypress_tile_id_dict = {

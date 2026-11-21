@@ -8,12 +8,12 @@ maindir = os.path.abspath(os.path.dirname(__file__))
 assetdir = os.path.join(maindir, 'assets')
 
 class Tile:
-    def __init__(self, type, x_given, y_given):
-        self.id_num = type
-        self.type = tile_id_type_dict[type]
+    def __init__(self, id_num, x_given, y_given):
+        self.id_num = id_num
+        self.type = tile_id_type_dict[id_num]
         self.img = pygame.image.load(os.path.join(assetdir, f'{self.type}.png'))
         self.img_rect = pygame.Rect(40*y_given, 40*x_given, 40, 40)
-        self.adjacencies = tile_id_adjacency_dict[type]
+        self.adjacencies = tile_id_adjacency_dict[id_num].copy()
     
     def get_img(self):
         return self.img
