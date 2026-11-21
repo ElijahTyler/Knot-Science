@@ -6,8 +6,6 @@ pygame.init()
 from Tile import *
 from KnotInfo import *
 
-
-
 maindir = os.path.dirname(os.path.abspath(__file__))
 assetdir = os.path.join(maindir, 'assets')
 
