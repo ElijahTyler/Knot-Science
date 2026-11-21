@@ -3,7 +3,7 @@ import json
 import pygame
 pygame.init()
 
-from Tile import *
+from KnotPiece import *
 from KnotInfo import *
 
 maindir = os.path.dirname(os.path.abspath(__file__))

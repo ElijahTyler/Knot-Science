@@ -1,6 +1,6 @@
 import json
 
-from Tile import *
+from KnotPiece import *
 
 def ints_to_tiles(knot):
     new_knot = []
