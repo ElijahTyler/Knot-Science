@@ -108,7 +108,21 @@ def trace(knot):
 
     return visited_list
 
+def notate_crossings(knot):
+    crossing_order = []
+    seen_crosses = {}
+    trace = trace(knot)
 
+    index = 1
+
+    for t in trace:
+        if knot[t[0]][t[1]].id_num in [3, 4]: # crossings
+            if t not in seen_crosses:
+                seen_crosses[t] = index
+                index += 1
+            crossing_order.append(seen_crosses[t])
+
+    return crossing_order
 
 
 
@@ -117,9 +131,9 @@ def main():
         knot = json.load(f)["knot"]
     knot = ints_to_tiles(knot)
 
-    knot_list = trace(knot)
+    crossing_order = notate_crossings(knot)
 
-    print(knot_list)
+    print(crossing_order)
 
 if __name__ == "__main__":
     main()

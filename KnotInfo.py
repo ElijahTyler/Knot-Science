@@ -5,8 +5,8 @@ tile_id_type_dict = {
     0: "empty",
     1: "bar_h",
     2: "bar_v",
-    3: "over_h",
-    4: "over_v",
+    3: "cross_h",
+    4: "cross_v",
     5: "l1",
     6: "l2",
     7: "l3",
@@ -20,7 +20,6 @@ tile_id_type_dict = {
 
 # tile type -> tile id_num
 tile_type_id_dict = {v: k for k, v in tile_id_type_dict.items()}
-print("tile_type_id_dict:", tile_type_id_dict)
 
 # key pressed -> tile id_num
 keypress_tile_id_dict = {
