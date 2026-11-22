@@ -111,11 +111,11 @@ def trace(knot):
 def notate_crossings(knot):
     crossing_order = []
     seen_crosses = {}
-    trace = trace(knot)
+    traced_knot = trace(knot)
 
     index = 1
 
-    for t in trace:
+    for t in traced_knot:
         if knot[t[0]][t[1]].id_num in [3, 4]: # crossings
             if t not in seen_crosses:
                 seen_crosses[t] = index
