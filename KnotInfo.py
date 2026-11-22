@@ -15,7 +15,9 @@ tile_id_type_dict = {
     10: "dot_up",
     11: "dot_left",
     12: "dot_down",
-    13: "dot"
+    13: "dot",
+    14: "double_l1",
+    15: "double_l2"
 }
 
 # tile type -> tile id_num
@@ -28,15 +30,17 @@ keypress_tile_id_dict = {
     pygame.K_2: 2,
     pygame.K_3: 3,
     pygame.K_4: 4,
-    pygame.K_5: 5,
-    pygame.K_6: 6,
-    pygame.K_7: 7,
-    pygame.K_8: 8,
+    pygame.K_q: 5,
+    pygame.K_w: 6,
+    pygame.K_e: 7,
+    pygame.K_r: 8,
     pygame.K_RIGHT: 9,
     pygame.K_UP: 10,
     pygame.K_LEFT: 11,
     pygame.K_DOWN: 12,
-    pygame.K_PERIOD: 13
+    pygame.K_PERIOD: 13,
+    pygame.K_a: 14,
+    pygame.K_s: 15
 }
 
 keys = list(keypress_tile_id_dict.keys())
@@ -57,5 +61,7 @@ tile_id_adjacency_dict = {
     10: [0, 1, 0, 0],
     11: [0, 0, 1, 0],
     12: [0, 0, 0, 1],
-    13: [0, 0, 0, 0]
+    13: [0, 0, 0, 0],
+    14: [1, 1, 1, 1],
+    15: [1, 1, 1, 1]
 }
