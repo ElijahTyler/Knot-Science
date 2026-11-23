@@ -35,14 +35,10 @@ The fun part! You get to draw out your knots. KnotSolver will run properly iff y
 
 ## TODO
 
-**KnotEditor**:
-
-- click to draw knots done, merge mouse & keyboard controls
-
 **KnotInfo**:
 
-- find inner regions (figure out how to do it in the first place lol)
 - inspect chain sinnet / slipknot closely
+- find inner regions (figure out how to do it in the first place lol)
 
 **KnotSolver**:
 
@@ -54,4 +50,6 @@ Michael Reed: for getting me excited about tying rope into fun shapes
 
 Wikipedia: for providing a parametric equation of a figure-8 knot in 3D space
 
-And you! Just kidding you didn't do any of the work this is all my code
+Kurt Reidemeister: for coming up with the moves 💯
+
+And you! Just kidding you didn't do any of the work
