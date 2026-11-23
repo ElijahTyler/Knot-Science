@@ -12,7 +12,7 @@ The fun part! You get to draw out your knots. KnotSolver will run properly iff y
 
 **Keyboard**:
 
-| Key | Function |
+<!-- | Key | Function |
 | --- | --- |
 | 1 | Horizontal |
 | 2 | Vertical |
@@ -22,7 +22,16 @@ The fun part! You get to draw out your knots. KnotSolver will run properly iff y
 | AS | Double corners |
 | DXCV | End pieces |
 | F | Dot |
-| Z | Empty |
+| Z | Empty | -->
+
+| | | | | |
+| --- | --- | --- | --- | --- |
+| 1 | 2 | 3 | 4 | ![Keyboard guide](assets/keyboard_guide_row1.png) |
+| Q | W | E | R | ![Keyboard guide](assets/keyboard_guide_row2.png) |
+| A | S | D | F | ![Keyboard guide](assets/keyboard_guide_row3.png) |
+| Z | X | C | V | ![Keyboard guide](assets/keyboard_guide_row4.png) |
+
+<!-- ![Keyboard guide](assets/keyboard_guide.png) -->
 
 ## TODO
 
