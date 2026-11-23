@@ -119,7 +119,7 @@ def main():
         mouse = pygame.mouse.get_pos()
         mouse_ij = [mouse[1]//40, mouse[0]//40]
 
-        for event in pygame.event.get():
+        for event in pygame.event.get(): # TODO merge with keyboard controls (at least arrow keys to define ends)
             if event.type == pygame.QUIT:
                 new_dict = {"knot": make_new_knot_array(new_knot)}
                 json_object = json.dumps(new_dict)
@@ -139,6 +139,7 @@ def main():
                     if new_knot[mouse_ij[0]][mouse_ij[1]].id_num in [3, 4]:
                         new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(7 - new_knot[mouse_ij[0]][mouse_ij[1]].id_num, mouse_ij[0], mouse_ij[1])
                 if event.button == 3:
+                    last_ij = None
                     new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(0, mouse_ij[0], mouse_ij[1])
 
         screen.blit(knot_background, (0, 0))
