@@ -42,19 +42,30 @@ def make_new_knot_array(knot):
     
     return new_knot_array
 
+def are_adjacent(ij1, ij2):
+    return (ij1[0] == ij2[0] and abs(ij1[1]-ij2[1]) == 1) or (ij1[1] == ij2[1] and abs(ij1[0]-ij2[0]) == 1)
+
+def deduce_id_num(knot, mouse_ij, last_ij):
+    if last_ij == None or not are_adjacent(mouse_ij, last_ij):
+        return 13
+    
+    # cases
+    # q1: last -> current (same dir) OR last -> current (different dir)
+    # q2: current is occupied by perpendicular bar OR current is unoccupied
+
+    if knot[mouse_ij[0]][mouse_ij[1]].id_num in [5, 6, 7, 8]: # current is occupied by a corner
+        return -1
+
+    # figure out direction of last -> current
+    dir = [0, 1][mouse_ij[1] == last_ij[1]] # 0 is horizontal, 1 is vertical
+    # LINKED LIST TIME huge news for the Linked List Truthers #LLT2026
+    # if we're going horizontal: check the last LAST tile's vertical coordinate to know which L it becomes
+    # if we're going vertical: check the last LAST tile's horizontal coordinate to know which L it becomes
 
 
 
-
-def mouse_event_drawing(knot, mouse_buttons, mouse_ij):
-    if mouse_buttons[0]:
-        knot[mouse_ij[0]][mouse_ij[1]] = Tile(13, mouse_ij[0], mouse_ij[1])
-    elif mouse_buttons[2]:
-        knot[mouse_ij[0]][mouse_ij[1]] = Tile(0, mouse_ij[0], mouse_ij[1])  
-
-
-
-
+global last_ij
+last_ij = None
 
 while True:
     mouse = pygame.mouse.get_pos()
@@ -70,10 +81,12 @@ while True:
 
             quit()
         
-        mouse_buttons = pygame.mouse.get_pressed()
-
-        if max(mouse_buttons):
-            mouse_event_drawing(new_knot, mouse_buttons, mouse_ij)
+        if event.type == pygame.MOUSEBUTTONDOWN: # click-and-click for now, click-and-drag perhaps later
+            if event.button == 1:
+                deduced_id_num = deduce_id_num(new_knot, mouse_ij, last_ij)
+                if deduced_id_num != -1:
+                    last_ij = mouse_ij
+                    new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(deduced_id_num, mouse_ij[0], mouse_ij[1])
 
     screen.blit(knot_background, (0, 0))
     for i in range(HEIGHT):
