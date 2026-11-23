@@ -25,7 +25,7 @@ tile_type_id_dict = {v: k for k, v in tile_id_type_dict.items()}
 
 # key pressed -> tile id_num
 keypress_tile_id_dict = {
-    pygame.K_0: 0,
+    pygame.K_z: 0,
     pygame.K_1: 1,
     pygame.K_2: 2,
     pygame.K_3: 3,
@@ -34,11 +34,11 @@ keypress_tile_id_dict = {
     pygame.K_w: 6,
     pygame.K_e: 7,
     pygame.K_r: 8,
-    pygame.K_RIGHT: 9,
-    pygame.K_UP: 10,
-    pygame.K_LEFT: 11,
-    pygame.K_DOWN: 12,
-    pygame.K_PERIOD: 13,
+    pygame.K_v: 9,
+    pygame.K_d: 10,
+    pygame.K_x: 11,
+    pygame.K_c: 12,
+    pygame.K_f: 13,
     pygame.K_a: 14,
     pygame.K_s: 15
 }
