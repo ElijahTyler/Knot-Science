@@ -16,6 +16,7 @@ class Tile:
             self.img = pygame.image.load(os.path.join(ldir, f'{self.type}.png'))
         else:
             self.img = pygame.image.load(os.path.join(assetdir, f'{self.type}.png'))
+        self.coords = (x_given, y_given)
         self.img_rect = pygame.Rect(40*y_given, 40*x_given, 40, 40)
         self.adjacencies = tile_id_adjacency_dict[id_num].copy()
     
