@@ -28,6 +28,47 @@ class Knot:
                     ends.append(self.pieces[i][j])
         return ends if len(ends) == 2 else []
 
+    def find_regions(self):
+        # identify regions in the 2d view of the knot
+        # but! we gotta be careful because of the knot pieces
+        # solution: the knot pieces will be included in the INNER regions, not the OUTER region
+        
+        outer_region = self.find_outer_region()
+
+        inner_regions = self.find_inner_regions()
+
+        return outer_region, inner_regions
+
+    def find_outer_region(self):
+        outer_region = []
+        visited = set()
+        stack = [(0, 0)]
+
+        while stack:
+            i, j = stack.pop()
+            if (i, j) in visited:
+                continue
+            visited.add((i, j))
+            outer_region.append((i, j))
+
+            for di, dj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                ni, nj = i + di, j + dj
+                if 0 <= ni < len(self.pieces) and 0 <= nj < len(self.pieces[0]) and self.pieces[ni][nj].id_num == 0:
+                    stack.append((ni, nj))
+
+        return outer_region
+
+    def find_inner_regions(self):
+        # the knot pieces create the regions based on the type of knot piece
+        # corner piece: 2 regions
+        # line/dot: 1 or 2 regions (only ever one region if it's a tail on either end of the knot)
+        # overpass: 2, 3 or 4 regions (4 regions minus number of tails it's directly connected to)
+        # double corners: 2 or 3 regions
+        # (directly connected := no crossings between pieces)
+
+        # TODO
+        pass
+
     def trace(self):
         end_pieces = self.find_ends_of_knot()
 
