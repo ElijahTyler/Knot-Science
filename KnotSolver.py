@@ -9,7 +9,7 @@ def main():
 
     # crossing_order = knot.notate_crossings()
 
-    print(knot.get_trace_coords())
+    print(knot.knot_coords)
 
 if __name__ == "__main__":
     main()

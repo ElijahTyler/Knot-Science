@@ -4,6 +4,7 @@ class Knot:
     def __init__(self, pieces):
         self.pieces = self.ints_to_tiles(pieces)
         self.knot = self.trace()
+        self.knot_coords = self.get_trace_coords()
 
     def ints_to_tiles(self, knot):
         new_knot = []
@@ -13,12 +14,6 @@ class Knot:
                 new_row.append(Tile(cell, i, j))
             new_knot.append(new_row)
         return new_knot
-
-    def find_tile(self, i, j):
-        i = 0
-        while self.pieces[i].coords != [i, j]:
-            i += 1
-        return self.pieces[i]
 
     def find_ends_of_knot(self):
         ends = []
