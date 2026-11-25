@@ -160,6 +160,8 @@ def main():
                 if event.button == 2:
                     if new_knot[mouse_ij[0]][mouse_ij[1]].id_num in [3, 4]:
                         new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(7 - new_knot[mouse_ij[0]][mouse_ij[1]].id_num, mouse_ij[0], mouse_ij[1])
+                    if new_knot[mouse_ij[0]][mouse_ij[1]].id_num in [14, 15]:
+                        new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(29 - new_knot[mouse_ij[0]][mouse_ij[1]].id_num, mouse_ij[0], mouse_ij[1])
 
             if event.type == pygame.KEYDOWN:
                 if event.key in keys:

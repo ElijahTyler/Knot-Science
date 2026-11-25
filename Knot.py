@@ -104,9 +104,15 @@ class Knot:
             self.pieces[current_i][current_j].adjacencies[(dir + 2) % 4] = 0
 
             # 4.
-            # only change direction if we're at a corner
-            if self.pieces[current_i][current_j].id_num in [5, 6, 7, 8]: # corner pieces
+            # only change direction if we're at a corner or double corner
+            curr_id_num = self.pieces[current_i][current_j].id_num
+            if curr_id_num in [5, 6, 7, 8]: # corner pieces
                 dir = self.pieces[current_i][current_j].adjacencies.index(1)
+            if curr_id_num in [14, 15]: # double corners
+                if curr_id_num == 14: # double corner 1 (l1 + l3)
+                    dir = 3 - dir
+                if curr_id_num == 15: # double corner 2 (l2 + l4)
+                    dir = [1, 0, 3, 2][dir]
 
         return visited_list
 
@@ -124,3 +130,12 @@ class Knot:
                 crossing_order.append(seen_crosses[t])
 
         return crossing_order
+
+    def get_trace_coords(self):
+        l = []
+        for k in self.knot:
+            l.append(k.coords)
+        return l
+    
+    def reidemeister(self):
+        pass

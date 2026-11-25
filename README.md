@@ -8,21 +8,15 @@ The fun part! You get to draw out your knots. KnotSolver will run properly iff y
 
 ### Controls
 
-**Mouse**: click and drag
+**Mouse**:
+
+| Button | Function |
+| --- | --- |
+| left | place tile |
+| middle | swap (for tiles with 2 paths) |
+| right | delete tile |
 
 **Keyboard**:
-
-<!-- | Key | Function |
-| --- | --- |
-| 1 | Horizontal |
-| 2 | Vertical |
-| 3 | Horizontal-on-top crossing |
-| 4 | Vertical-on-top crossing |
-| QWER | Corners |
-| AS | Double corners |
-| DXCV | End pieces |
-| F | Dot |
-| Z | Empty | -->
 
 | | | | | |
 | --- | --- | --- | --- | --- |
