@@ -7,9 +7,9 @@ def main():
         pieces = json.load(f)["knot"]
     knot = Knot(pieces)
 
-    # crossing_order = knot.notate_crossings()
+    crossings = knot.notate_crossings()
 
-    print(knot.knot_coords)
+    print(crossings)
 
 if __name__ == "__main__":
     main()

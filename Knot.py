@@ -111,18 +111,41 @@ class Knot:
 
         return visited_list
 
+    def get_dir(self, last_ij, curr_ij):
+        d = {(0, 1): 0, (-1, 0): 1, (0, -1): 2, (1, 0): 3}
+
+        i = curr_ij[0] - last_ij[0]
+        j = curr_ij[1] - last_ij[1]
+
+        return d[(i, j)]
+
     def notate_crossings(self):
         crossing_order = []
         seen_crosses = {}
 
         index = 1
 
+        last_ij = None
+        dir = -1
+
         for t in self.knot:
+            curr_ij = t.coords
+            if last_ij is not None:
+                dir = self.get_dir(last_ij, curr_ij)
+            
             if t.id_num in [3, 4]: # crossings
                 if t not in seen_crosses:
                     seen_crosses[t] = index
                     index += 1
-                crossing_order.append(seen_crosses[t])
+
+                if (t.id_num == 3 and dir in [0, 2]) or (t.id_num == 4 and dir in [1, 3]):
+                    path = 'over'
+                else:
+                    path = 'under'
+
+                crossing_order.append((seen_crosses[t], dir, path))
+
+            last_ij = curr_ij
 
         return crossing_order
 
