@@ -5,6 +5,7 @@ class Knot:
         self.pieces = self.ints_to_tiles(pieces)
         self.knot = self.trace()
         self.knot_coords = self.get_trace_coords()
+        self.crossings = self.notate_crossings()
 
     def ints_to_tiles(self, knot):
         new_knot = []
