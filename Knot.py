@@ -143,7 +143,7 @@ class Knot:
                 else:
                     path = 'under'
 
-                crossing_order.append((seen_crosses[t], dir, path))
+                crossing_order.append((seen_crosses[t], dir, path)) # crossing index, direction, over/under
 
             last_ij = curr_ij
 
