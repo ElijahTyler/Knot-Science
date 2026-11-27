@@ -10,7 +10,7 @@ def main():
     # for c in knot.crossings:
     #     print(c)
 
-    knot.reidemeister(True, [1])
+    knot.reidemeister(True)
 
 if __name__ == "__main__":
     main()
