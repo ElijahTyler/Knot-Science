@@ -1,5 +1,8 @@
+import json
+
 from KnotPiece import *
 from Crossing import *
+from KnotEditor import make_new_knot_array
 
 class Knot:
     def __init__(self, pieces):
@@ -165,5 +168,36 @@ class Knot:
         # move 2: move middle of string over/under another line of string
         # move 3: move middle of string to other side of crossing
 
-        # 1. for move 1, we can check self.crossings
-        # to see adjacent crossings of same number
+        # for move 1, check for adjacent crossings of same crossing index
+        # if i find two, connect the two directions of what i found
+        # d = (dir1 + dir2) % 4
+        # if d = 1: a
+        # if d = 3: s
+        for t in range(len(self.crossings) - 1):
+            if (self.crossings[t].index != self.crossings[t + 1].index):
+                continue
+
+            dir1 = self.crossings[t].dir
+            dir2 = self.crossings[t + 1].dir
+
+            d = (dir1 + dir2) % 4
+            coords_to_change = self.crossings[t].knot_piece.coords
+
+            if d == 1:
+                self.pieces[coords_to_change[0]][coords_to_change[1]] = KnotPiece(14, coords_to_change[0], coords_to_change[1])
+            if d == 3:
+                self.pieces[coords_to_change[0]][coords_to_change[1]] = KnotPiece(15, coords_to_change[0], coords_to_change[1])
+
+        # for move 2, check for adjacent crossings of same path
+
+        # for move 3, ???
+
+        # redraw all that jawn into jsawn
+        make_new_knot_array(self.pieces)
+        new_dict = {"knot": make_new_knot_array(self.pieces)}
+        json_object = json.dumps(new_dict)
+
+        with open("knot.json", "w") as outfile:
+            outfile.write(json_object)
+
+        return
