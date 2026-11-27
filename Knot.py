@@ -72,24 +72,32 @@ class Knot:
         # TODO
         pass
 
-    def trace(self):
+    def trace(self, starting_point: KnotPiece = None, reverse=False):
         end_pieces = self.find_ends_of_knot()
 
         if end_pieces == []: # The Santa Clause
             print("no end pieces found")
             return
         
-        dir = end_pieces[0].id_num - 9 # 0 is right, 1 is up, 2 is left, 3 is down
-
-        # i, j are now coordinates for a dot tile, which is the start of the trace
-        # (we only needed to find one of them)
-
-        current_i, current_j = end_pieces[0].coords
-        visited_list = [end_pieces[0]]
+        if starting_point == None or starting_point in end_pieces:
+            if starting_point in end_pieces:
+                idx = end_pieces.index(starting_point)
+            else:
+                idx = 1 - (not int(reverse))
+            current_i, current_j = end_pieces[idx].coords
+            visited_list = [end_pieces[idx]]
+            dir = end_pieces[idx].id_num - 9 # 0 is right, 1 is up, 2 is left, 3 is down
+        else:
+            current_i, current_j = starting_point.coords
+            visited_list = [starting_point]
+            if reverse:
+                dir = self.get_dir(starting_point.coords, self.knot[self.knot.index(starting_point) - 1].coords)
+            else:
+                dir = self.get_dir(self.knot[self.knot.index(starting_point) - 1].coords, starting_point.coords)
 
         idx_dirs = [(0, 1), (-1, 0), (0, -1), (1, 0)] # right, up, left, down
 
-        while (current_i, current_j) != end_pieces[1].coords or len(visited_list) == 1:
+        while (current_i, current_j) not in [end_pieces[0].coords, end_pieces[1].coords] or len(visited_list) == 1:
             # 1. check current tile's adjacency (only one should show up in the direction we're going)
             # 2. go to the new tile 
             # 3. block off the adjacency behind the new tile
@@ -101,6 +109,8 @@ class Knot:
             # 2.
             ni, nj = current_i + di, current_j + dj
             current_i, current_j = ni, nj
+            # print(ni, nj)
+            # print(self.pieces[current_i][current_j].adjacencies)
             visited_list.append(self.pieces[current_i][current_j])
 
             # 3.
