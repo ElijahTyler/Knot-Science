@@ -123,7 +123,7 @@ class Knot:
 
     def notate_crossings(self):
         crossing_order = []
-        seen_crosses = {}
+        seen_crossings = {}
 
         index = 1
 
@@ -136,8 +136,8 @@ class Knot:
                 dir = self.get_dir(last_ij, curr_ij)
             
             if t.id_num in [3, 4]: # crossings
-                if t not in seen_crosses:
-                    seen_crosses[t] = index
+                if t not in seen_crossings:
+                    seen_crossings[t] = index
                     index += 1
 
                 if (t.id_num == 3 and dir in [0, 2]) or (t.id_num == 4 and dir in [1, 3]):
@@ -145,7 +145,7 @@ class Knot:
                 else:
                     path = 'under'
 
-                crossing_order.append(Crossing(t, index, dir, path)) # knot piece, crossing index, direction, over/under
+                crossing_order.append(Crossing(t, seen_crossings[t], dir, path)) # knot piece, crossing index, direction, over/under
 
             last_ij = curr_ij
 
