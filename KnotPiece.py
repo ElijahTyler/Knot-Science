@@ -25,3 +25,6 @@ class KnotPiece:
     
     def get_img_rect(self):
         return self.img_rect
+    
+    def reset_adjacencies(self):
+        self.adjacencies = tile_id_adjacency_dict[self.id_num].copy()
