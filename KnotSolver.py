@@ -7,7 +7,8 @@ def main():
         pieces = json.load(f)["knot"]
     knot = Knot(pieces)
 
-    print(knot.crossings)
+    for c in knot.crossings:
+        print(c)
 
 if __name__ == "__main__":
     main()

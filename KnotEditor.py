@@ -22,7 +22,7 @@ blocks_layout = []
 [blocks_layout.append([0]*WIDTH) for i in range(HEIGHT)]
 for i in range(HEIGHT):
     for j in range(WIDTH):
-        blocks_layout[i][j] = Tile(current_knot[i][j], i, j)
+        blocks_layout[i][j] = KnotPiece(current_knot[i][j], i, j)
 new_knot = blocks_layout
 
 def make_new_knot_array(knot):
@@ -84,7 +84,7 @@ def deduce_id_num(knot, mouse_ij, last_ij):
     # if we're going vertical: check the last LAST tile's horizontal coordinate to know which L it becomes
 
     if knot[last_ij[0]][last_ij[1]].id_num == 13:
-        knot[last_ij[0]][last_ij[1]] = Tile(dir + 9, last_ij[0], last_ij[1])
+        knot[last_ij[0]][last_ij[1]] = KnotPiece(dir + 9, last_ij[0], last_ij[1])
 
     # for now, let's just check both other perpendicular tiles to the last tile to know which L it becomes
     if dir in [1, 3]:
@@ -95,14 +95,14 @@ def deduce_id_num(knot, mouse_ij, last_ij):
         if knot[last_ij[0]][last_ij[1]].id_num == 1: # changing direction
             if dir == 1:
                 if knot[last_ij[0]][last_ij[1] + 1].adjacencies[2] == 1:
-                    knot[last_ij[0]][last_ij[1]] = Tile(5, last_ij[0], last_ij[1])
+                    knot[last_ij[0]][last_ij[1]] = KnotPiece(5, last_ij[0], last_ij[1])
                 else:
-                    knot[last_ij[0]][last_ij[1]] = Tile(6, last_ij[0], last_ij[1])
+                    knot[last_ij[0]][last_ij[1]] = KnotPiece(6, last_ij[0], last_ij[1])
             if dir == 3:
                 if knot[last_ij[0]][last_ij[1] + 1].adjacencies[2] == 1:
-                    knot[last_ij[0]][last_ij[1]] = Tile(8, last_ij[0], last_ij[1])
+                    knot[last_ij[0]][last_ij[1]] = KnotPiece(8, last_ij[0], last_ij[1])
                 else:
-                    knot[last_ij[0]][last_ij[1]] = Tile(7, last_ij[0], last_ij[1])
+                    knot[last_ij[0]][last_ij[1]] = KnotPiece(7, last_ij[0], last_ij[1])
 
     if dir in [0, 2]:
         if knot[mouse_ij[0]][mouse_ij[1]].id_num == 2: # make a crossing
@@ -112,14 +112,14 @@ def deduce_id_num(knot, mouse_ij, last_ij):
         if knot[last_ij[0]][last_ij[1]].id_num == 2: # changing direction
             if dir == 0:
                 if knot[last_ij[0] + 1][last_ij[1]].adjacencies[1] == 1:
-                    knot[last_ij[0]][last_ij[1]] = Tile(8, last_ij[0], last_ij[1])
+                    knot[last_ij[0]][last_ij[1]] = KnotPiece(8, last_ij[0], last_ij[1])
                 else:
-                    knot[last_ij[0]][last_ij[1]] = Tile(5, last_ij[0], last_ij[1])
+                    knot[last_ij[0]][last_ij[1]] = KnotPiece(5, last_ij[0], last_ij[1])
             if dir == 2:
                 if knot[last_ij[0] + 1][last_ij[1]].adjacencies[1] == 1:
-                    knot[last_ij[0]][last_ij[1]] = Tile(7, last_ij[0], last_ij[1])
+                    knot[last_ij[0]][last_ij[1]] = KnotPiece(7, last_ij[0], last_ij[1])
                 else:
-                    knot[last_ij[0]][last_ij[1]] = Tile(6, last_ij[0], last_ij[1])
+                    knot[last_ij[0]][last_ij[1]] = KnotPiece(6, last_ij[0], last_ij[1])
 
     return id_to_return
 
@@ -150,22 +150,22 @@ def main():
 
                 if deduced_id_num != -1:
                     last_ij = mouse_ij
-                    new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(deduced_id_num, mouse_ij[0], mouse_ij[1])
+                    new_knot[mouse_ij[0]][mouse_ij[1]] = KnotPiece(deduced_id_num, mouse_ij[0], mouse_ij[1])
 
             if mouse_buttons[2]:
                 last_ij = None
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(0, mouse_ij[0], mouse_ij[1])
+                new_knot[mouse_ij[0]][mouse_ij[1]] = KnotPiece(0, mouse_ij[0], mouse_ij[1])
             
             if event.type == pygame.MOUSEBUTTONDOWN: # click-and-drag works*
                 if event.button == 2:
                     if new_knot[mouse_ij[0]][mouse_ij[1]].id_num in [3, 4]:
-                        new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(7 - new_knot[mouse_ij[0]][mouse_ij[1]].id_num, mouse_ij[0], mouse_ij[1])
+                        new_knot[mouse_ij[0]][mouse_ij[1]] = KnotPiece(7 - new_knot[mouse_ij[0]][mouse_ij[1]].id_num, mouse_ij[0], mouse_ij[1])
                     if new_knot[mouse_ij[0]][mouse_ij[1]].id_num in [14, 15]:
-                        new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(29 - new_knot[mouse_ij[0]][mouse_ij[1]].id_num, mouse_ij[0], mouse_ij[1])
+                        new_knot[mouse_ij[0]][mouse_ij[1]] = KnotPiece(29 - new_knot[mouse_ij[0]][mouse_ij[1]].id_num, mouse_ij[0], mouse_ij[1])
 
             if event.type == pygame.KEYDOWN:
                 if event.key in keys:
-                    new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(keypress_tile_id_dict[event.key], mouse_ij[0], mouse_ij[1])
+                    new_knot[mouse_ij[0]][mouse_ij[1]] = KnotPiece(keypress_tile_id_dict[event.key], mouse_ij[0], mouse_ij[1])
 
         screen.blit(knot_background, (0, 0))
         for i in range(HEIGHT):

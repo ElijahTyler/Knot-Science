@@ -7,7 +7,7 @@ def ints_to_tiles(knot):
     for i, row in enumerate(knot):
         new_row = []
         for j, cell in enumerate(row):
-            new_row.append(Tile(cell, i, j))
+            new_row.append(KnotPiece(cell, i, j))
         new_knot.append(new_row)
     return new_knot
 

@@ -1,4 +1,5 @@
 from KnotPiece import *
+from Crossing import *
 
 class Knot:
     def __init__(self, pieces):
@@ -12,7 +13,7 @@ class Knot:
         for i, row in enumerate(knot):
             new_row = []
             for j, cell in enumerate(row):
-                new_row.append(Tile(cell, i, j))
+                new_row.append(KnotPiece(cell, i, j))
             new_knot.append(new_row)
         return new_knot
 
@@ -144,7 +145,7 @@ class Knot:
                 else:
                     path = 'under'
 
-                crossing_order.append((seen_crosses[t], dir, path)) # crossing index, direction, over/under
+                crossing_order.append(Crossing(t, index, dir, path)) # knot piece, crossing index, direction, over/under
 
             last_ij = curr_ij
 
@@ -158,3 +159,11 @@ class Knot:
     
     def reidemeister(self):
         pass
+
+        # idea: find possible reidemeister moves
+        # move 1: twist / untwist string
+        # move 2: move middle of string over/under another line of string
+        # move 3: move middle of string to other side of crossing
+
+        # 1. for move 1, we can check self.crossings
+        # to see adjacent crossings of same number

@@ -8,7 +8,7 @@ maindir = os.path.abspath(os.path.dirname(__file__))
 assetdir = os.path.join(maindir, 'assets')
 ldir = os.path.join(assetdir, 'bent_l')
 
-class Tile:
+class KnotPiece:
     def __init__(self, id_num, x_given, y_given):
         self.id_num = id_num
         self.type = tile_id_type_dict[id_num]

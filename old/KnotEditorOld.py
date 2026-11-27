@@ -23,7 +23,7 @@ blocks_layout = []
 [blocks_layout.append([0]*WIDTH) for i in range(HEIGHT)]
 for i in range(HEIGHT):
     for j in range(WIDTH):
-        blocks_layout[i][j] = Tile(current_knot[i][j], i, j)
+        blocks_layout[i][j] = KnotPiece(current_knot[i][j], i, j)
 new_knot = blocks_layout
 
 size = width, height = 800, 600
@@ -57,7 +57,7 @@ while True:
             quit()
         if event.type == pygame.KEYDOWN:
             if event.key in keys:
-                new_knot[mouse_ij[0]][mouse_ij[1]] = Tile(keypress_tile_id_dict[event.key], mouse_ij[0], mouse_ij[1])
+                new_knot[mouse_ij[0]][mouse_ij[1]] = KnotPiece(keypress_tile_id_dict[event.key], mouse_ij[0], mouse_ij[1])
 
     screen.blit(knot_background, (0, 0))
     for i in range(HEIGHT):
