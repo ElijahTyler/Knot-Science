@@ -78,7 +78,7 @@ class Knot:
         if end_pieces == []: # The Santa Clause
             print("no end pieces found")
             return
-        
+
         if starting_point == None or starting_point in end_pieces:
             if starting_point in end_pieces:
                 idx = end_pieces.index(starting_point)
