@@ -8,6 +8,10 @@ The fun part! You get to draw out your knots. KnotSolver will run properly iff y
 
 ## KnotSolver
 
+Pretty much a sandbox for you to try and run tests on your knot if you feel like it or whatever
+
+## Knot
+
 Guys reidemeister() freaking identifies slipknots by utilizing the Reidemeister moves in a way that is provably analogous to ambient isotopies in 3D space
 
 Now, I know what you're thinking. "Erm in English please?"
