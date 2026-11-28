@@ -11,6 +11,7 @@ class Knot:
 
     def update(self):
         self.knot = self.trace()
+        self.tonk = self.trace(None, True)
         self.knot_coords = self.get_trace_coords()
         self.crossings = self.notate_crossings()
 
@@ -176,7 +177,109 @@ class Knot:
             l.append(k.coords)
         return l
     
-    def reidemeister(self, change=True, moves_to_check=[1,2,3]):
+    def do_we_need_to_flip_them_jawns_and_by_jawns_i_mean_the_new_double_corners(self, crossing_a, crossing_b):
+        # we're here to find order (shoutout umbridge and them..)..
+        # and im talking ABAB or ABBA
+        # if the order is ABAB, we flip the script (return True)
+        # if the order is ABBA, we do not flip said script (return False)
+        # it's just that simple
+
+        order = ''
+        for c in self.crossings:
+            if c.knot_piece.coords == crossing_a.knot_piece.coords:
+                order += 'a'
+            if c.knot_piece.coords == crossing_b.knot_piece.coords:
+                order += 'b'
+
+        return (order == 'abab')
+
+    def rdm_1(self):
+        for t in range(len(self.crossings) - 1):
+            if (self.crossings[t].index != self.crossings[t + 1].index):
+                continue
+
+            dir1 = self.crossings[t].dir
+            dir2 = self.crossings[t + 1].dir
+
+            d = (dir1 + dir2) % 4 # FIXME
+
+            coords_to_change = self.crossings[t].knot_piece.coords
+
+            if d == 1:
+                new_kp = KnotPiece(14, coords_to_change[0], coords_to_change[1])
+            if d == 3:
+                new_kp = KnotPiece(15, coords_to_change[0], coords_to_change[1])
+
+            self.pieces[coords_to_change[0]][coords_to_change[1]] = new_kp
+            
+            return True
+        
+        return False
+
+    def rdm_2(self):
+        for t in range(len(self.crossings) - 1):
+            if (self.crossings[t].path != self.crossings[t + 1].path):
+                continue
+            if (self.crossings[t].dir == self.crossings[t + 1].dir):
+                continue
+            if (self.crossings[t].knot_piece.id_num not in [3, 4]) or (self.crossings[t + 1].knot_piece.id_num not in [3, 4]):
+                continue
+
+            print('potential match found for reidemeister move 2')
+            print(self.crossings[t].knot_piece.coords, self.crossings[t + 1].knot_piece.coords)
+            # print('id nums:')
+            # print(self.crossings[t].knot_piece.id_num, self.crossings[t + 1].knot_piece.id_num)
+
+            # each crossing has 2 directions
+            # make sure the two directions are the terminals of one of the double corners
+            coords_1_dir_a = self.crossings[t].dir
+            coords_1_dir_b = None
+            coords_2_dir_a = self.crossings[t + 1].dir
+            coords_2_dir_b = None
+
+            for c in self.crossings:
+                if (c.knot_piece.coords == self.crossings[t].knot_piece.coords) and (c.dir != self.crossings[t].dir):
+                    coords_1_dir_b = c.dir
+                if (c.knot_piece.coords == self.crossings[t + 1].knot_piece.coords) and (c.dir != self.crossings[t + 1].dir):
+                    coords_2_dir_b = c.dir
+
+            if coords_1_dir_b == None or coords_2_dir_b == None:
+                print("i've met a terrible fate")
+                return
+
+            # print(coords_1_dir_a, coords_1_dir_b)
+            # print(coords_2_dir_a, coords_2_dir_b)
+
+            dir1 = (coords_1_dir_a + coords_1_dir_b) % 4 # FIXME
+            dir2 = (coords_2_dir_a + coords_2_dir_b) % 4 # FIXME
+
+            # if the crossings are A and B and they go ABBA, we're good
+            # if they go ABAB, we gotta flip em
+            we_flip_them_jawns = self.do_we_need_to_flip_them_jawns_and_by_jawns_i_mean_the_new_double_corners(self.crossings[t], self.crossings[t + 1])
+            if we_flip_them_jawns:
+                dir1 = 4 - dir1
+                dir2 = 4 - dir2
+
+            coords1 = self.crossings[t].knot_piece.coords
+            coords2 = self.crossings[t + 1].knot_piece.coords
+
+            if dir1 == 1:
+                new_kp1 = KnotPiece(14, coords1[0], coords1[1])
+            if dir1 == 3:
+                new_kp1 = KnotPiece(15, coords1[0], coords1[1])
+            if dir2 == 1:
+                new_kp2 = KnotPiece(14, coords2[0], coords2[1])
+            if dir2 == 3:
+                new_kp2 = KnotPiece(15, coords2[0], coords2[1])
+
+            self.pieces[coords1[0]][coords1[1]] = new_kp1
+            self.pieces[coords2[0]][coords2[1]] = new_kp2
+            
+            return True
+
+        return False
+    
+    def reidemeister(self, moves_to_check=[1,2,3]):
         changelog = [] # (old knot piece, new knot piece)
         new_changes_found = True
         # move 1: twist / untwist string
@@ -189,90 +292,19 @@ class Knot:
             # for move 1, check for adjacent crossings of same crossing index
             # if i find two, connect the two directions of what i found
             if 1 in moves_to_check:
-                for t in range(len(self.crossings) - 1):
-                    if (self.crossings[t].index != self.crossings[t + 1].index):
-                        continue
-
-                    dir1 = self.crossings[t].dir
-                    dir2 = self.crossings[t + 1].dir
-
-                    d = (dir1 + dir2) % 4 # FIXME
-                    coords_to_change = self.crossings[t].knot_piece.coords
-
-                    if d == 1:
-                        new_kp = KnotPiece(14, coords_to_change[0], coords_to_change[1])
-                    if d == 3:
-                        new_kp = KnotPiece(15, coords_to_change[0], coords_to_change[1])
-
+                if self.rdm_1():
                     new_changes_found = True
-                    changelog.append((self.pieces[coords_to_change[0]][coords_to_change[1]], new_kp))
-                    if change:
-                        self.pieces[coords_to_change[0]][coords_to_change[1]] = new_kp
-                        self.update()
-                        break
 
             # for move 2, check for adjacent crossings of same path
             if 2 in moves_to_check:
-                for t in range(len(self.crossings) - 1):
-                    if (self.crossings[t].path != self.crossings[t + 1].path):
-                        continue
-                    if (self.crossings[t].dir == self.crossings[t + 1].dir):
-                        continue
-                    if (self.crossings[t].knot_piece.id_num not in [3, 4]) or (self.crossings[t + 1].knot_piece.id_num not in [3, 4]):
-                        continue
-
-                    print('potential match found for reidemeister move 2')
-                    print(self.crossings[t].knot_piece.coords, self.crossings[t + 1].knot_piece.coords)
-                    # print('id nums:')
-                    # print(self.crossings[t].knot_piece.id_num, self.crossings[t + 1].knot_piece.id_num)
-
-                    # each crossing has 2 directions
-                    # make sure the two directions are the terminals of one of the double corners
-                    coords_1_dir_a = self.crossings[t].dir
-                    coords_1_dir_b = None
-                    coords_2_dir_a = self.crossings[t + 1].dir
-                    coords_2_dir_b = None
-
-                    for c in self.crossings:
-                        if (c.knot_piece.coords == self.crossings[t].knot_piece.coords) and (c.dir != self.crossings[t].dir):
-                            coords_1_dir_b = c.dir
-                        if (c.knot_piece.coords == self.crossings[t + 1].knot_piece.coords) and (c.dir != self.crossings[t + 1].dir):
-                            coords_2_dir_b = c.dir
-
-                    if coords_1_dir_b == None or coords_2_dir_b == None:
-                        print("i've met a terrible fate")
-                        return
-
-                    print(coords_1_dir_a, coords_1_dir_b)
-                    print(coords_2_dir_a, coords_2_dir_b)
-
-                    dir1 = (coords_1_dir_a + coords_1_dir_b) % 4 # FIXME
-                    dir2 = (coords_2_dir_a + coords_2_dir_b) % 4 # FIXME
-
-                    coords1 = self.crossings[t].knot_piece.coords
-                    coords2 = self.crossings[t + 1].knot_piece.coords
-
-                    if dir1 == 1:
-                        new_kp1 = KnotPiece(14, coords1[0], coords1[1])
-                    if dir1 == 3:
-                        new_kp1 = KnotPiece(15, coords1[0], coords1[1])
-                    if dir2 == 1:
-                        new_kp2 = KnotPiece(14, coords2[0], coords2[1])
-                    if dir2 == 3:
-                        new_kp2 = KnotPiece(15, coords2[0], coords2[1])
-
+                if self.rdm_2():
                     new_changes_found = True
-                    changelog.append((self.pieces[coords1[0]][coords1[1]], new_kp1))
-                    changelog.append((self.pieces[coords2[0]][coords2[1]], new_kp2))
-                    if change:
-                        self.pieces[coords1[0]][coords1[1]] = new_kp1
-                        self.pieces[coords2[0]][coords2[1]] = new_kp2
-                        self.update()
-                        break
 
             # for move 3, ???
             if 3 in moves_to_check:
                 pass
+
+            self.update()
 
         # redraw all that jawn into jsawn
         self.update()
