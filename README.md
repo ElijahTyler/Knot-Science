@@ -6,6 +6,13 @@ The idea is to figure out a way to model knots on a 2D grid.
 
 The fun part! You get to draw out your knots. KnotSolver will run properly iff you have one knot at a time AND the ends of your knot are capped (use the end pieces).
 
+## KnotSolver
+
+Guys reidemeister() freaking identifies slipknots by utilizing the Reidemeister moves in a way that is provably analogous to ambient isotopies in 3D space
+Now, I know what you're thinking. "Erm in English please?"
+Human moves a knot in real life without changing the knot structure
+Code moves a knot in code without changing the knot structure in the same way
+
 ### Controls
 
 **Mouse**:
@@ -29,14 +36,13 @@ The fun part! You get to draw out your knots. KnotSolver will run properly iff y
 
 ## TODO
 
-**KnotInfo**:
+**Knot sure**:
 
-- inspect chain sinnet / slipknot closely
-- find inner regions (figure out how to do it in the first place lol)
+- $10
 
-**KnotSolver**:
+**KnotEditor**:
 
-- implement double corners
+- make the cap piece show up when you let go of the mouse on a 1 or 2 (this is literally what the code is gonna look like but I'm writing this in bed at 12:56am so I'll do it tomorrow (later today))
 
 ## Credits
 
