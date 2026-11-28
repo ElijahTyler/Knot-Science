@@ -177,12 +177,12 @@ class Knot:
             l.append(k.coords)
         return l
     
-    def do_we_need_to_flip_them_jawns_and_by_jawns_i_mean_the_new_double_corners(self, crossing_a, crossing_b):
+    def do_we_need_to_flip_them_jawns_and_by_them_jawns_i_mean_the_new_double_corners(self, crossing_a, crossing_b):
         # we're here to find order (shoutout umbridge and them..)..
         # and im talking ABAB or ABBA
         # if the order is ABAB, we flip the script (return True)
         # if the order is ABBA, we do not flip said script (return False)
-        # it's just that simple
+        # it's just that simple B)
 
         order = ''
         for c in self.crossings:
@@ -193,9 +193,39 @@ class Knot:
 
         return (order == 'abab')
 
+    def function_for_rdm_2_to_check_that_both_times_we_see_both_crossings_theyre_adjacent(self, crossing_a, crossing_b):
+        # goal: to check that both times we see both crossings (in self.crossings) they're adjacent
+        # regex: (KnotPiece)*(ab|ba)(KnotPiece)*(ab|ba)(KnotPiece)*
+        skip_next = False
+        count = 0
+        for i in range(len(self.crossings) - 1):
+            if skip_next: # immunity totam (e) in surviror
+                skip_next = False
+                continue
+
+            if self.crossings[i].knot_piece.coords == crossing_a.knot_piece.coords:
+                if self.crossings[i + 1].knot_piece.coords == crossing_b.knot_piece.coords:
+                    count += 1
+                    if count == 2:
+                        return True
+                    skip_next = True
+                    continue
+            if self.crossings[i].knot_piece.coords == crossing_b.knot_piece.coords:
+                if self.crossings[i + 1].knot_piece.coords == crossing_a.knot_piece.coords:
+                    count += 1
+                    if count == 2:
+                        return True
+                    skip_next = True
+                    continue
+
+        return False
+
+
     def rdm_1(self):
         for t in range(len(self.crossings) - 1):
             if (self.crossings[t].index != self.crossings[t + 1].index):
+                continue
+            if self.crossings[t].knot_piece in self.find_ends_of_knot():
                 continue
 
             dir1 = self.crossings[t].dir
@@ -225,8 +255,12 @@ class Knot:
             if (self.crossings[t].knot_piece.id_num not in [3, 4]) or (self.crossings[t + 1].knot_piece.id_num not in [3, 4]):
                 continue
 
-            print('potential match found for reidemeister move 2')
-            print(self.crossings[t].knot_piece.coords, self.crossings[t + 1].knot_piece.coords)
+            both_times_we_see_both_crossings_theyre_adjacent = self.function_for_rdm_2_to_check_that_both_times_we_see_both_crossings_theyre_adjacent(self.crossings[t], self.crossings[t + 1])
+            if not both_times_we_see_both_crossings_theyre_adjacent:
+                continue
+
+            # print('potential match found for reidemeister move 2')
+            # print(self.crossings[t].knot_piece.coords, self.crossings[t + 1].knot_piece.coords)
             # print('id nums:')
             # print(self.crossings[t].knot_piece.id_num, self.crossings[t + 1].knot_piece.id_num)
 
@@ -255,7 +289,7 @@ class Knot:
 
             # if the crossings are A and B and they go ABBA, we're good
             # if they go ABAB, we gotta flip em
-            we_flip_them_jawns = self.do_we_need_to_flip_them_jawns_and_by_jawns_i_mean_the_new_double_corners(self.crossings[t], self.crossings[t + 1])
+            we_flip_them_jawns = self.do_we_need_to_flip_them_jawns_and_by_them_jawns_i_mean_the_new_double_corners(self.crossings[t], self.crossings[t + 1])
             if we_flip_them_jawns:
                 dir1 = 4 - dir1
                 dir2 = 4 - dir2
@@ -279,7 +313,7 @@ class Knot:
 
         return False
     
-    def reidemeister(self, moves_to_check=[1,2,3]):
+    def reidemeister(self, moves_to_check=[1,2]):
         changelog = [] # (old knot piece, new knot piece)
         new_changes_found = True
         # move 1: twist / untwist string
@@ -290,19 +324,20 @@ class Knot:
             new_changes_found = False
             
             # for move 1, check for adjacent crossings of same crossing index
-            # if i find two, connect the two directions of what i found
             if 1 in moves_to_check:
                 if self.rdm_1():
+                    # print('1')
                     new_changes_found = True
 
             # for move 2, check for adjacent crossings of same path
             if 2 in moves_to_check:
                 if self.rdm_2():
+                    # print('2')
                     new_changes_found = True
 
-            # for move 3, ???
-            if 3 in moves_to_check:
-                pass
+            # for move 3, ignore for now (moe)
+            # if 3 in moves_to_check:
+            #     pass
 
             self.update()
 
